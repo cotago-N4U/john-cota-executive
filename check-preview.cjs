@@ -26,6 +26,11 @@ const fs = require('node:fs');
       assert.equal(await page.locator('.scene:visible').count(), 1);
       assert.equal(await page.locator('h1:visible').count(), 1);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, 'Horizontal overflow: ' + scene + ' / ' + viewport.width);
+      if (scene === 'brand') {
+        assert.equal(await page.locator('[data-route="brand"]').getAttribute('aria-current'), 'step');
+        assert.equal(await page.locator('.context-metrics strong').allTextContents().then(values => values.join(' / ')), '34% / 48%');
+        assert.equal(await page.locator('.next-chapter').getAttribute('href'), '#practice');
+      }
       await page.locator('.scene:visible').screenshot({ path: path.join(output, viewport.width + '-' + scene + '.png'), animations: 'disabled' });
     }
     // Keyboard navigation from the global nav into a card and then its scene.

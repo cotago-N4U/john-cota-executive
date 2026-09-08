@@ -25,6 +25,10 @@ function showScene(route, { focus = true, restore = false } = {}) {
     if (link.dataset.nav === section) link.setAttribute('aria-current', 'page');
     else link.removeAttribute('aria-current');
   });
+  document.querySelectorAll('[data-route]').forEach(link => {
+    if (link.dataset.route === route) link.setAttribute('aria-current', 'step');
+    else link.removeAttribute('aria-current');
+  });
   if (focus) active.querySelector('h1').focus({ preventScroll: true });
   // Scene changes are explicit navigation; ordinary scrolling is never intercepted.
   window.scrollTo({ top: restore ? (scrollPositions.get(route) || 0) : 0, behavior: 'instant' });
