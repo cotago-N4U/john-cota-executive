@@ -1,25 +1,60 @@
-const menu = document.querySelector('.menu');
-const mobileNav = document.querySelector('#mobile-nav');
+const scenes = [...document.querySelectorAll('.scene')];
+const sceneNames = new Set(scenes.map(scene => scene.id));
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const scrollPositions = new Map();
+let currentScene = null;
 
-function closeMenu({ restoreFocus = false } = {}) {
-  if (!menu || !mobileNav) return;
-  menu.setAttribute('aria-expanded', 'false');
-  mobileNav.hidden = true;
-  if (restoreFocus) menu.focus();
+function routeFromHash() {
+  const route = location.hash.slice(1);
+  return sceneNames.has(route) ? route : 'work';
 }
 
-menu?.addEventListener('click', () => {
-  const isOpen = menu.getAttribute('aria-expanded') === 'true';
-  menu.setAttribute('aria-expanded', String(!isOpen));
-  mobileNav.hidden = isOpen;
+function showScene(route, { focus = true, restore = false } = {}) {
+  if (!sceneNames.has(route) || route === currentScene) return;
+  if (currentScene) scrollPositions.set(currentScene, window.scrollY);
+  scenes.forEach(scene => {
+    scene.hidden = scene.id !== route;
+    scene.classList.remove('scene-enter');
+  });
+  currentScene = route;
+  document.body.dataset.scene = route;
+  const active = document.getElementById(route);
+  document.title = active.dataset.title;
+  const section = ['partnership', 'operations', 'brand'].includes(route) ? 'work' : route;
+  document.querySelectorAll('[data-nav]').forEach(link => {
+    if (link.dataset.nav === section) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+  if (focus) active.querySelector('h1').focus({ preventScroll: true });
+  // Scene changes are explicit navigation; ordinary scrolling is never intercepted.
+  window.scrollTo({ top: restore ? (scrollPositions.get(route) || 0) : 0, behavior: 'instant' });
+  if (!reducedMotion.matches && focus) active.classList.add('scene-enter');
+}
+
+document.addEventListener('click', event => {
+  const link = event.target.closest('a[href^="#"]');
+  if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const route = link.getAttribute('href').slice(1);
+  if (route === 'main') {
+    event.preventDefault();
+    document.getElementById('main').focus();
+    return;
+  }
+  if (!sceneNames.has(route)) return;
+  event.preventDefault();
+  if (route === currentScene) {
+    document.getElementById(route).querySelector('h1').focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+    return;
+  }
+  history.pushState({ scene: route }, '', '#' + route);
+  showScene(route);
 });
-mobileNav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => closeMenu()));
-document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && menu?.getAttribute('aria-expanded') === 'true') closeMenu({ restoreFocus: true });
-});
-window.matchMedia('(min-width: 761px)').addEventListener('change', event => {
-  if (event.matches) closeMenu();
-});
+window.addEventListener('popstate', () => showScene(routeFromHash(), { restore: true }));
+window.addEventListener('hashchange', () => showScene(routeFromHash(), { restore: true }));
+document.body.dataset.enhanced = 'true';
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+showScene(routeFromHash(), { focus: false });
 
 const perspectives = {
   brand: {
@@ -58,7 +93,6 @@ const lensButtons = document.querySelectorAll('.lens-button');
 const followWork = document.querySelector('.follow-work');
 const stages = document.querySelectorAll('.workflow-stage');
 const explanation = document.querySelector('.lens-explanation');
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 lensButtons.forEach(button => button.addEventListener('click', () => {
   const lens = button.dataset.lens;
@@ -67,17 +101,13 @@ lensButtons.forEach(button => button.addEventListener('click', () => {
   lensButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
   followWork.dataset.activeLens = lens;
   stages.forEach((stage, index) => {
-    stage.querySelector('h3').textContent = perspective.stages[index][0];
+    stage.querySelector('h2').textContent = perspective.stages[index][0];
     stage.querySelector('p').textContent = perspective.stages[index][1];
   });
   explanation.querySelector('.lens-label').textContent = perspective.label;
   explanation.querySelector('p').textContent = perspective.explanation;
-  if (!reduceMotion.matches) {
-    followWork.classList.remove('is-changing');
-    requestAnimationFrame(() => requestAnimationFrame(() => followWork.classList.add('is-changing')));
-  }
+  followWork.classList.remove('is-changing');
+  if (!reducedMotion.matches) requestAnimationFrame(() => requestAnimationFrame(() => followWork.classList.add('is-changing')));
 }));
-followWork?.addEventListener('animationend', event => {
-  if (event.target === stages[stages.length - 1]) followWork.classList.remove('is-changing');
-});
+followWork.addEventListener('animationend', () => followWork.classList.remove('is-changing'));
 document.querySelector('#year').textContent = new Date().getFullYear();
