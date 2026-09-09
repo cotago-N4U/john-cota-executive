@@ -31,6 +31,11 @@ const fs = require('node:fs');
         assert.equal(await page.locator('.context-metrics strong').allTextContents().then(values => values.join(' / ')), '34% / 48%');
         assert.equal(await page.locator('.scene:visible .next-chapter').getAttribute('href'), '#practice');
       }
+      if (scene === 'partnership') {
+        assert.equal(await page.locator('.artifact-card').count(), 5);
+        assert.equal(await page.locator('.artifact-card img[alt]').count(), 5);
+        assert.equal(await page.locator('.scene:visible .next-chapter').getAttribute('href'), '#operations');
+      }
       await page.locator('.scene:visible').screenshot({ path: path.join(output, viewport.width + '-' + scene + '.png'), animations: 'disabled' });
     }
     // Keyboard navigation from the global nav into a card and then its scene.
