@@ -29,7 +29,7 @@ const fs = require('node:fs');
       if (scene === 'brand') {
         assert.equal(await page.locator('[data-route="brand"]').getAttribute('aria-current'), 'step');
         assert.equal(await page.locator('.context-metrics strong').allTextContents().then(values => values.join(' / ')), '34% / 48%');
-        assert.equal(await page.locator('.next-chapter').getAttribute('href'), '#practice');
+        assert.equal(await page.locator('.scene:visible .next-chapter').getAttribute('href'), '#practice');
       }
       await page.locator('.scene:visible').screenshot({ path: path.join(output, viewport.width + '-' + scene + '.png'), animations: 'disabled' });
     }
@@ -65,6 +65,8 @@ const fs = require('node:fs');
     assert.equal(await page.locator('.scene:visible').evaluate(el => getComputedStyle(el).animationName), 'none');
     assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).scrollBehavior), 'auto');
     assert.equal(await page.locator('.profile-links a').first().getAttribute('href'), 'https://www.linkedin.com/in/johncota-go/');
+    assert.equal(await page.locator('.profile-links a').nth(1).getAttribute('href'), 'https://www.instagram.com/cota_go/');
+    assert.match(await page.locator('.email-link').getAttribute('href'), /subject=Executive%20site%20inquiry/);
     await page.locator('.skip').focus();
     await page.keyboard.press('Enter');
     assert.equal(await page.locator('.scene:visible').getAttribute('id'), 'about', 'Skip link must retain active scene');
