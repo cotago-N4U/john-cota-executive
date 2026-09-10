@@ -29,6 +29,11 @@ const fs = require('node:fs');
       if (scene === 'brand') {
         assert.equal(await page.locator('[data-route="brand"]').getAttribute('aria-current'), 'step');
         assert.equal(await page.locator('.context-metrics strong').allTextContents().then(values => values.join(' / ')), '34% / 48%');
+        assert.equal(await page.locator('.brand-artifact').count(), 5);
+        assert.equal(await page.locator('.brand-artifact img[alt]').count(), 5);
+        await page.locator('.brand-artifacts').scrollIntoViewIfNeeded();
+        for (const image of await page.locator('.brand-artifact img').all()) await image.scrollIntoViewIfNeeded();
+        await page.waitForFunction(() => [...document.querySelectorAll('.brand-artifact img')].every(image => image.complete && image.naturalWidth > 0));
         assert.equal(await page.locator('.scene:visible .next-chapter').getAttribute('href'), '#practice');
       }
       if (scene === 'partnership') {
@@ -39,6 +44,12 @@ const fs = require('node:fs');
         await page.locator('.photo-essay').scrollIntoViewIfNeeded();
         await page.waitForFunction(() => [...document.querySelectorAll('.photo-tile img')].every(image => image.complete && image.naturalWidth > 0));
         assert.equal(await page.locator('.scene:visible .next-chapter').getAttribute('href'), '#operations');
+      }
+      if (scene === 'operations') {
+        assert.equal(await page.locator('.workflow-document img[alt]').count(), 1);
+        assert.equal(await page.locator('.router-audiences span').count(), 4);
+        await page.locator('.operations-artifacts').scrollIntoViewIfNeeded();
+        await page.waitForFunction(() => document.querySelector('.workflow-document img')?.naturalWidth > 0);
       }
       await page.locator('.scene:visible').screenshot({ path: path.join(output, viewport.width + '-' + scene + '.png'), animations: 'disabled' });
     }

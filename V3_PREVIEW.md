@@ -32,7 +32,7 @@ The user-verified LinkedIn URL is included: https://www.linkedin.com/in/johncota
 
 The supplied résumé source was inspected without alteration. No résumé file was copied into this branch and no download link was added. Review identified claims that need reconciliation before that document is used as the public download.
 
-Authentic, publishable excerpts from the existing CRC guide, workflow documentation and brand applications would still strengthen the cases. The preview does not depend on locating additional historic projects.
+All three flagship cases now include publishable, claim-bounded visual evidence: excerpts from the joint Community Resource Center guide; the archived Graphic Design Workflow plus a clearly labeled reconstruction of its Podio request routing; and five excerpts from the L.A. Care Corporate Identity Manual and Marketing Style Guide. John’s independently curated photography is presented separately as creative perspective, not project documentation. The preview does not depend on locating additional historic projects.
 
 ## Verification
 
