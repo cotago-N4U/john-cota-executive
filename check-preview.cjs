@@ -34,6 +34,10 @@ const fs = require('node:fs');
       if (scene === 'partnership') {
         assert.equal(await page.locator('.artifact-card').count(), 5);
         assert.equal(await page.locator('.artifact-card img[alt]').count(), 5);
+        assert.equal(await page.locator('.photo-tile').count(), 13);
+        assert.equal(await page.locator('.photo-tile img[alt]').count(), 13);
+        await page.locator('.photo-essay').scrollIntoViewIfNeeded();
+        await page.waitForFunction(() => [...document.querySelectorAll('.photo-tile img')].every(image => image.complete && image.naturalWidth > 0));
         assert.equal(await page.locator('.scene:visible .next-chapter').getAttribute('href'), '#operations');
       }
       await page.locator('.scene:visible').screenshot({ path: path.join(output, viewport.width + '-' + scene + '.png'), animations: 'disabled' });
@@ -72,8 +76,7 @@ const fs = require('node:fs');
     assert.equal(await page.locator('.profile-links a').first().getAttribute('href'), 'https://www.linkedin.com/in/johncota-go/');
     assert.equal(await page.locator('.profile-links a').nth(1).getAttribute('href'), 'https://www.instagram.com/cota_go/');
     assert.match(await page.locator('.email-link').getAttribute('href'), /subject=Executive%20site%20inquiry/);
-    assert.equal(await page.locator('.snapwidget-widget').getAttribute('src'), 'https://snapwidget.com/embed/1124384');
-    assert.equal(await page.locator('.snapwidget-widget').getAttribute('loading'), 'lazy');
+    assert.equal(await page.locator('.snapwidget-widget').count(), 0);
     await page.locator('.skip').focus();
     await page.keyboard.press('Enter');
     assert.equal(await page.locator('.scene:visible').getAttribute('id'), 'about', 'Skip link must retain active scene');
