@@ -69,6 +69,11 @@ const fs = require('node:fs');
     await page.reload({ waitUntil: 'networkidle' });
     assert.equal(await page.locator('.scene:visible').getAttribute('id'), 'partnership');
     await page.locator('[data-nav="practice"]').click();
+    assert.equal(await page.locator('.artwork').count(), 5);
+    assert.equal(await page.locator('.artwork img[alt]').count(), 5);
+    await page.locator('.handmade').scrollIntoViewIfNeeded();
+    await page.waitForFunction(() => [...document.querySelectorAll('.artwork img')].every(image => image.complete && image.naturalWidth > 0));
+    await page.locator('.handmade').screenshot({ path: path.join(output, viewport.width + '-handmade.png'), animations: 'disabled' });
     for (const lens of ['people', 'operations', 'brand']) {
       const button = page.locator('[data-lens="' + lens + '"]');
       await button.focus();
