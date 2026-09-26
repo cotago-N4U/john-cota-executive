@@ -8,3 +8,5 @@ preview-checks
 check-preview.cjs
 V2_PREVIEW.md
 V3_PREVIEW.md
+PORTFOLIO_*.md
+portfolio-audit/
