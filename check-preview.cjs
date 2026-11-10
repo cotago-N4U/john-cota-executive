@@ -18,7 +18,7 @@ const fs = require('node:fs');
     assert.equal(await page.locator('.scene:visible').count(), 1);
     assert.equal(await page.locator('.scene:visible').getAttribute('id'), 'work');
     await page.screenshot({ path: path.join(output, viewport.width + '-hub.png'), animations: 'disabled' });
-    for (const scene of ['work', 'partnership', 'operations', 'brand', 'practice', 'about']) {
+    for (const scene of ['work', 'partnership', 'operations', 'brand', 'practice', 'ai', 'about']) {
       if (scene !== 'work') {
         await page.evaluate(route => { location.hash = route; }, scene);
         await page.waitForFunction(route => document.querySelector('.scene:not([hidden])')?.id === route, scene);
@@ -46,10 +46,18 @@ const fs = require('node:fs');
         assert.equal(await page.locator('.scene:visible .next-chapter').getAttribute('href'), '#operations');
       }
       if (scene === 'operations') {
-        assert.equal(await page.locator('.workflow-document img[alt]').count(), 1);
+        const workflow = page.locator('.workflow-map');
+        assert.equal(await workflow.locator('[data-workflow-case]').count(), 4);
+        const vendor = workflow.getByRole('button', {name: 'External designer'});
+        await vendor.click();
+        assert.equal(await vendor.getAttribute('aria-pressed'), 'true');
+        assert(await workflow.getByText('Review the estimate before design begins.').isVisible());
         assert.equal(await page.locator('.router-audiences span').count(), 4);
-        await page.locator('.operations-artifacts').scrollIntoViewIfNeeded();
-        await page.waitForFunction(() => document.querySelector('.workflow-document img')?.naturalWidth > 0);
+        const original = await workflow.locator('.workflow-footer a').getAttribute('href');
+        assert((await page.request.get(new URL(original, page.url()).href)).ok());
+        await workflow.locator('summary').click();
+        assert(await workflow.locator('dd').first().isVisible());
+        await workflow.locator('summary').click();
       }
       await page.locator('.scene:visible').screenshot({ path: path.join(output, viewport.width + '-' + scene + '.png'), animations: 'disabled' });
     }
@@ -97,12 +105,12 @@ const fs = require('node:fs');
     await page.keyboard.press('Enter');
     assert.equal(await page.locator('.scene:visible').getAttribute('id'), 'about', 'Skip link must retain active scene');
     assert.deepEqual(errors, []);
-    results.push({ width: viewport.width, scenes: 6, overflow: false, keyboard: 'pass', historyAndDeepLinks: 'pass', reducedMotion: 'pass', errors });
+    results.push({ width: viewport.width, scenes: 7, overflow: false, keyboard: 'pass', historyAndDeepLinks: 'pass', reducedMotion: 'pass', errors });
     await page.close();
   }
   const noJS = await browser.newPage({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   await noJS.goto('http://127.0.0.1:4173');
-  assert.equal(await noJS.locator('.scene:visible').count(), 6);
+  assert.equal(await noJS.locator('.scene:visible').count(), 7);
   await noJS.locator('.tile-partnership').click();
   assert.equal(new URL(noJS.url()).hash, '#partnership');
   await noJS.close();

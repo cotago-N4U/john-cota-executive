@@ -67,3 +67,67 @@ body,body[data-scene=work]{background:var(--cool-white)}.work-scene{background:v
 
 /* Public portfolio pathway from the primary narrative site. */
 .portfolio-cta{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:20px;padding:13px 0 10px;border-bottom:1px solid currentColor;font:500 16px/1.2 var(--display);text-decoration:none}.portfolio-cta span{font-size:22px;transition:transform .2s ease}.portfolio-cta:hover span{transform:translateX(4px)}
+
+/* Give the recreated workflow the reading width it needs. */
+.operations-artifact-grid:has(.workflow-map) {
+  grid-template-columns: minmax(0, 1fr);
+}
+.operations-artifact-grid .workflow-map { min-width: 0; }
+.operations-artifact-grid .request-router { min-height: 0; }
+
+/* Applied AI uses the same editorial type and grid as the other scenes. */
+body[data-scene=ai] .story-route { display: none; }
+.ai-scene { padding-block: clamp(2.6rem, 5vw, 5.5rem); background: #e8e2f2; }
+.ai-opening {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: clamp(1.5rem, 5vw, 5rem);
+  align-items: end;
+}
+.ai-opening h1 {
+  margin: 0;
+  font: 600 clamp(3.1rem, 7.2vw, 7rem)/.9 var(--display);
+  letter-spacing: -.075em;
+}
+.ai-opening h1 em { color: #423275; font-weight: 500; }
+.ai-intro p { max-width: 47ch; margin: 0; }
+.ai-intro p + p { margin-top: .85rem; }
+.ai-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: clamp(1.65rem, 4.5vw, 3.7rem) 0;
+  padding: 1px;
+  background: #504569;
+  list-style: none;
+}
+.ai-steps li { display: grid; gap: .45rem; padding: 1.05rem; background: #f8f3fc; }
+.ai-steps strong { font: 600 clamp(1rem, 1.8vw, 1.35rem)/1.15 var(--display); }
+.ai-applications h2 {
+  margin: 0 0 1rem;
+  font: 600 clamp(2rem, 4vw, 3.25rem)/1 var(--display);
+  letter-spacing: -.04em;
+}
+.ai-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  padding: 1px;
+  background: #91859f;
+}
+.ai-grid article { display: flex; flex-direction: column; padding: clamp(1rem, 2.5vw, 2rem); background: #f8f3fc; }
+.ai-grid h3 { margin: 0; font: 650 clamp(1.2rem, 2vw, 1.7rem)/1.1 var(--display); }
+.ai-grid p { margin: .65rem 0 1rem; }
+.ai-grid a { margin-top: auto; font-weight: 650; text-underline-offset: .2em; }
+.ai-scene .scene-next { margin-top: 2rem; }
+.ai-practice-link { color: inherit; font-size: .85rem; font-weight: 650; text-underline-offset: .2em; }
+
+@media (max-width: 860px) {
+  .ai-opening { grid-template-columns: 1fr; }
+  .ai-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 540px) {
+  .ai-steps, .ai-grid { grid-template-columns: 1fr; }
+  .navigation .nav-links { gap: 2px; flex-wrap: wrap; }
+  .navigation .nav-links a { padding-inline: 8px; }
+}
