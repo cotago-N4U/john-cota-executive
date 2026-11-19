@@ -18,6 +18,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="workflow.css">
+  <link rel="stylesheet" href="ai.css">
   <script src="script.js" defer></script>
   <script src="workflow.js" defer></script>
 </head>
@@ -201,25 +202,34 @@
           </div>
           <div class="ai-intro">
             <p>I use automation for repeatable steps and AI agents to explore options, gather evidence and prepare work for review. At COTAFORM, I apply that approach to brand, creative development and training.</p>
-            <p>When a task has several steps, I give the agent an objective, the sources it can use and a point where I need to make a decision. I review the evidence and approve what moves forward.</p>
           </div>
         </header>
+        <section class="ai-model" aria-labelledby="ai-model-title">
+          <div class="ai-model-heading">
+            <div><p class="eyebrow">The operating model</p><h2 id="ai-model-title">A clear brief.<br>A human decision.</h2></div>
+            <p>When a task has several steps, I give the agent an objective, the sources it can use and a point where I need to make a decision. I review the evidence and approve what moves forward.</p>
+          </div>
         <ol class="ai-steps" aria-label="How I direct an agent" role="list">
-          <li><span class="micro">01 / Brief</span><strong>Set the goal and boundaries</strong></li>
-          <li><span class="micro">02 / Build</span><strong>Give the agent sources and tools</strong></li>
-          <li><span class="micro">03 / Verify</span><strong>Check the work before release</strong></li>
+          <li><span class="micro">01 / Brief</span><strong>Set the goal<br>and boundaries</strong><span class="ai-step-detail">Objective + scope</span></li>
+          <li><span class="micro">02 / Build</span><strong>Give the agent<br>sources and tools</strong><span class="ai-step-detail">Context + evidence</span></li>
+          <li><span class="micro">03 / Verify</span><strong>Check the work<br>before release</strong><span class="ai-step-detail">Human review + approval</span></li>
         </ol>
+        </section>
         <section class="ai-applications" aria-labelledby="ai-applications-title">
-          <h2 id="ai-applications-title">Where I use it</h2>
+          <div class="ai-applications-heading"><h2 id="ai-applications-title">Where I use it</h2><p>Brand, systems and creative practice.</p></div>
           <div class="ai-grid">
-            <article><h3>Marketing + brand</h3><p>I use AI to organize research, compare messaging directions and develop channel concepts from a brief. I weigh the audience, portfolio fit and claims before choosing a direction.</p><a href="#brand">Explore the brand systems case study <span aria-hidden="true">↗</span></a></article>
-            <article><h3>Operations</h3><p>I use agents to gather evidence, check it against requirements and prepare work for review. In my application workflow, the tracker records package readiness separately from submission.</p><a href="https://portfolio.cotago.co/#agent-workflow">See the application workflow <span aria-hidden="true">↗</span></a></article>
-            <article><h3>AI training for teams</h3><p>I design practice around a real brief, a worked example and a review checklist. The exercise is to give the agent enough context, evaluate what it returns and recognize when a person needs to step in.</p></article>
-            <article><h3>Website + app development</h3><p>I define how the experience should work, use coding agents to build in small changes and check the result in the browser. The design workflow map on this site is an example.</p><a href="#operations">Explore the interactive workflow <span aria-hidden="true">↗</span></a></article>
-            <article><h3>Photography</h3><p>I use AI to explore visual references and treatments during planning. I bring the same attention to framing, light and selection that I bring to my own photography.</p><a href="https://www.instagram.com/cota_go/">See my photography <span aria-hidden="true">↗</span></a></article>
-            <article><h3>Videography</h3><p>For a Medicare member-education pilot, I used AI-assisted motion prototypes to test tone and pacing before production. Benefit language remains subject to Medicare Product review.</p><a href="https://portfolio.cotago.co/#current">See the Medicare concept pilot <span aria-hidden="true">↗</span></a></article>
+            <article><p class="ai-card-label micro">Strategy</p><h3>Marketing + brand</h3><p>I use AI to organize research, compare messaging directions and develop channel concepts from a brief. I weigh the audience, portfolio fit and claims before choosing a direction.</p><a href="#brand">Explore the brand systems case study <span aria-hidden="true">↗</span></a></article>
+            <article><p class="ai-card-label micro">Workflow</p><h3>Operations</h3><p>I use agents to gather evidence, check it against requirements and prepare work for review. In my application workflow, the tracker records package readiness separately from submission.</p><a href="https://portfolio.cotago.co/#agent-workflow">See the application workflow <span aria-hidden="true">↗</span></a></article>
+            <article><p class="ai-card-label micro">Adoption</p><h3>AI training for teams</h3><p>I design practice around a real brief, a worked example and a review checklist. The exercise is to give the agent enough context, evaluate what it returns and recognize when a person needs to step in.</p></article>
+            <article><p class="ai-card-label micro">Digital experiences</p><h3>Website + app development</h3><p>I define how the experience should work, use coding agents to build in small changes and check the result in the browser. The design workflow map on this site is an example.</p><a href="#operations">Explore the interactive workflow <span aria-hidden="true">↗</span></a></article>
+            <article><p class="ai-card-label micro">Visual exploration</p><h3>Photography</h3><p>I use AI to explore visual references and treatments during planning. I bring the same attention to framing, light and selection that I bring to my own photography.</p><a href="https://www.instagram.com/cota_go/">See my photography <span aria-hidden="true">↗</span></a></article>
+            <article><p class="ai-card-label micro">Pre-production</p><h3>Videography</h3><p>For a Medicare member-education pilot, I used AI-assisted motion prototypes to test tone and pacing before production. Benefit language remains subject to Medicare Product review.</p><a href="https://portfolio.cotago.co/#current">See the Medicare concept pilot <span aria-hidden="true">↗</span></a></article>
           </div>
         </section>
+        <aside class="ai-cotaform" aria-labelledby="ai-cotaform-title">
+          <div class="ai-cotaform-identity"><span class="micro">The independent practice</span><a class="ai-cotaform-name" href="https://cotaform.com/">COTAFORM<span aria-hidden="true">↗</span></a><span class="micro">Automation · Training · Marketing</span></div>
+          <div class="ai-cotaform-copy"><h2 id="ai-cotaform-title">The same thinking.<br>In everyday practice.</h2><p>At COTAFORM, I bring brand and creative leadership to practical AI adoption, workflow automation and training.</p><a class="ai-cotaform-link" href="https://cotaform.com/">Explore COTAFORM <span aria-hidden="true">↗</span></a></div>
+        </aside>
         <nav class="scene-next" aria-label="Explore more"><a href="#work">Explore the case studies <span aria-hidden="true">↖</span></a><a href="#about">About + contact <span aria-hidden="true">→</span></a></nav>
       </div>
     </section>
